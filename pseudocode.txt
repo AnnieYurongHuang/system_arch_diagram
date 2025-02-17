@@ -1,0 +1,109 @@
+Pseudocode for Each Major Component
+
+Temperature Simulation and MQTT Publishing (Backend Server)
+Function InitializeSystem
+    Initialize MQTT Connection
+    Connect to Gemini API
+End Function
+
+Function SimulateTemperatureData
+    While True
+        temperature = GenerateRandomTemperature(10, 30) // Generate a random temperature between 10°C and 30°C
+        PublishToMQTT("temperatureTopic", temperature)
+        Sleep(60000) // Wait for 60 seconds before next simulation
+    End While
+End Function
+
+Function GenerateRandomTemperature(min, max)
+    Return RandomNumber(min, max) // Returns a random number between min and max
+End Function
+
+Handling Subscriptions and Publishing (MQTT Broker)
+Function SetupMQTTBroker
+    Create MQTT Broker Instance
+    Set Up Topics:
+        - "temperatureTopic"
+        - "queryTopic"
+        - "responseTopic"
+    Allow Subscriptions to All Topics
+End Function
+
+Handling Subscriptions and Publishing (Backend Server)
+Function SetupMQTTBroker
+    Create MQTT Broker Instance
+    Set Up Topics:
+        - "temperatureTopic"
+        - "queryTopic"
+        - "responseTopic"
+    Allow Subscriptions to All Topics
+End Function
+
+Backend Server - Processing User Queries with Gemini LLM API
+Function HandleUserQueries
+    While True
+        query = SubscribeFromMQTT("queryTopic")
+        response = ProcessQueryWithGemini(query)
+        PublishToMQTT("responseTopic", response)
+    End While
+End Function
+
+Function ProcessQueryWithGemini(query)
+    response = SendQueryToGeminiAPI(query)
+    Return response
+End Function
+
+Function SendQueryToGeminiAPI(query)
+    // Send query to Gemini API and wait for the response
+    response = GeminiAPI.GetResponse(query)
+    Return response
+End Function
+
+Streamlit User Interface - Displaying Data and Sending Queries
+Function SetupStreamlitUI
+    DisplayInterface() // Sets up the initial Streamlit interface
+    OnTemperatureUpdate() // Listener for temperature updates
+    OnUserSubmitQuery() // Listener for user query submissions
+End Function
+
+Function DisplayInterface
+    Display "Enter your query:"
+    InputBox for user queries
+    Button "Submit" linked to SubmitQuery
+    Display "Current Plant Status:" + Emoji
+End Function
+
+Function OnTemperatureUpdate
+    SubscribeFromMQTT("temperatureTopic")
+    OnReceive(temperature)
+        plantStatus = DeterminePlantStatus(temperature)
+        UpdateUIPlantStatus(plantStatus)
+    End OnReceive
+End Function
+
+Function DeterminePlantStatus(temperature)
+    If temperature between 18 and 24
+        Return ":)"
+    Else
+        Return ":("
+    End If
+End Function
+
+Function UpdateUIPlantStatus(plantStatus)
+    Display plantStatus in Streamlit UI
+End Function
+
+Function SubmitQuery
+    query = GetInputFromUI()
+    PublishToMQTT("queryTopic", query)
+End Function
+
+Function OnUserSubmitQuery
+    SubscribeFromMQTT("responseTopic")
+    OnReceive(response)
+        DisplayResponseInUI(response)
+    End OnReceive
+End Function
+
+Function DisplayResponseInUI(response)
+    Display response in Streamlit UI
+End Function

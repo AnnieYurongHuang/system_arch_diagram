@@ -1,0 +1,11 @@
+Systems Functionality 
+Key Features: 
+Temperatuer Monitoring Stimulation
+1. Temp data>Evaluates whether the conditions are within an optimal range for the plant.
+2. Updates on Streamlit UI to show happy or sad or mid emoji, reflecting the suitability of the current temp.
+User interaction from LLM (Gemini)
+1. Users input queries about the plant through Streamlit UI
+2. Queries are sent through the MQTT broker to the backend server.
+3. Server processes these queries with the Gemini LMM API, interprets the input and generate an appropriate response based on the current data and plant care knowledges.
+Hosted on Streamlit User Interface
+
